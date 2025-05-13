@@ -4,13 +4,13 @@ This project deploys a complete data pipeline using a medalion architecture (Bro
 
 ## 📚 Overview
 
-The goal of this project is to demonstrate technical skills: 
+The goal of this project is to demonstrate the following technical skills: 
 
 - Orchestrating and applying data engineering with Airflow and PySpark
 
 - Build a data architecture using the bronze, silver, and gold layers
 
-- Monitoring and handling failures on pipeline
+- Monitoring and handling failures in pipeline
 
 - Viewing interactive using Streamlit 
 
@@ -22,7 +22,7 @@ API Open Brewery
       ↓
 [Bronze Layer] - Raw (Parquet)
       ↓
-[Silver Layer] - Cleaned data, normalized, partitioned by país
+[Silver Layer] - Cleaned data, normalized, partitioned by country
       ↓
 [Gold Layer] - Aggregated data (by country and brewery type)
       ↓
@@ -37,13 +37,11 @@ API Open Brewery
 - **Streamlit** (Gold Layer): Build a simple dashboard.
 
 ## 🧠 Solution Design
-Bronze: Raw data is stored in parquet
+* Bronze: Raw data is stored in parquet
+* Silver: Processed data (nulls, types and renaming), are stored by country
+* Gold: Aggregated by type, state, country
 
-Silver: Processed data (nulls, types and renaming), are stored by country (is or are ??????)
-
-Gold: Aggregated by type, state, country
-
-### 🔍 Monitoring and Handling erros strategy
+## 🔍 Monitoring and Handling erros strategy
 validation: It's applied one validation to each layer during the process, getting counts registries and check if there's empty files. 
 validation: This processs checks for empty files and obtains count records for each layer
 - **validate_bronze_data**: Validate the raw parquet is stored correctly
@@ -51,7 +49,7 @@ validation: This processs checks for empty files and obtains count records for e
 - **validate_gold_data**: Validate the final file stored
 - **email_alert**: Whether/IF any problems occur during this process, a callback error will be returned (Here, I simulated this using logs)
 
-### ❓ Decisions and Design Choices
+## ❓ Decisions and Design Choices
 - **Parquet files**: I chose parquet file because it's ideal for analytical queries, selective column reading, optimized compression and indexing
 - **Airflow**: I chose Airflow as a pipeline orchestrator because of its solidity. visibility and flexibility. It allows us modeling pipelines with clear dependencies between steps, configure retries and warnings, and monitor executions via a web interface. It integrates perfectly with pyspark. 
 - **PySpark**: PySpark was chosen as a processing engine because it allows us to apply transformations, distributed aggregations, and execute parallel processes. Furthermore, PySpark enables us to scale the same local code to Databricks, EMR, or Kubernetes clusters.
@@ -89,7 +87,7 @@ If services are up, access the Airflow interface by navigating to:
 ```
 http://localhost:8080
 ```
-Log in with the default credentials (airflow/airflow).
+Log in with the default credentials (airflow/airflow) or (admin/admin).
 
 ### 5. Trigger the DAG
 In the Airflow interface, locate the DAG named `brewery_etl_dag`. You can then trigger the pipeline to fetch data from API, transform it, and create the gold view.

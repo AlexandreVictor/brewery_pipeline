@@ -1,0 +1,7 @@
+# Essenciais (não inclusos na imagem base)
+python-dotenv==1.0.0  # Para carregar .env
+requests==2.31.0      # Para APIs externas
+
+# Opcionais (somente se for usar)
+streamlit==1.32.2     # Remova se não for usar dashboards
+pyspark==3.5.1
